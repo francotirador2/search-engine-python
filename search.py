@@ -81,7 +81,8 @@ for file_name in union_docs:
 results.sort(key = lambda x : -x[1])
 results = results[:limit]
 for i in range(len(results)):
+    print(results[i],end=',')
     results[i] = results[i][0]
     
-for result in results:
-    print(result,end=',')
+#for result in results:
+    
