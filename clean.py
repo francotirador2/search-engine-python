@@ -16,14 +16,5 @@ def clean(text):
     return word_tokens
 
 
-'''
-#TODO remove comments
-f = open('docs/2')
-s = ''
-for line in f:
-    s += ' ' + line 
-
-print(clean(s))'''
-
 
 
