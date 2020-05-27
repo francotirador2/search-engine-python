@@ -4,6 +4,7 @@ import clean
 
 base_dir = 'docs_test'
 
+
 def run():
 
     file_names = os.listdir(base_dir)
@@ -26,6 +27,11 @@ def run():
     else:
         dfs = {}
 
+    if (os.path.exists('posting_list.pkl')):
+        posting_list = pickle.load(open('posting_list.pkl','rb'))
+    else:
+        posting_list = {}
+
 
     for file_name in file_names:
 
@@ -38,11 +44,17 @@ def run():
             for line in f:
 
                 cleaned = clean.clean(line)
+
                 for word in cleaned:
+
                     doc_words.add(word)
                     if (word not in doc_tfs):
                         doc_tfs[word] = 0
                     doc_tfs[word] += 1
+
+                    if (word not in posting_list):
+                        posting_list[word] = []
+                    posting_list[word].append(file_name)
 
             for word in doc_words:
                 if (word not in dfs):
@@ -55,5 +67,8 @@ def run():
 
     #print(dfs)
 
+    print(posting_list)
+
     pickle.dump(tfs,open('tfs.pkl','wb'))
     pickle.dump(dfs,open('dfs.pkl','wb'))
+    pickle.dump(posting_list,open('posting_list.pkl','wb'))

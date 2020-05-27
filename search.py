@@ -10,11 +10,12 @@ import indexer
 import math
 
 
-if (not os.path.exists('tfs.pkl') or not os.path.exists('dfs.pkl')):
+if (not os.path.exists('tfs.pkl') or not os.path.exists('dfs.pkl') or not os.path.exists('posting_list.pkl')):
     indexer.run()
 
 tfs = pickle.load(open('tfs.pkl','rb'))
 dfs = pickle.load(open('dfs.pkl','rb'))
+posting_list = pickle.load(open('posting_list.pkl','rb'))
 
 N = len(tfs) #total number of docs
 
@@ -44,7 +45,18 @@ for word in query_vec:
 results = []
 
 
-for file_name in tfs:
+#retrieve documents containing atleast one of the words in the query
+union_docs = set()
+for word in query_vec:
+    if (word in posting_list):
+        for doc in posting_list[word]:
+            union_docs.add(doc)
+
+
+#print('union_docs',union_docs)
+
+
+for file_name in union_docs:
 
     vec = {}
     norm = 0
@@ -68,4 +80,5 @@ results = results[:limit]
 for i in range(len(results)):
     results[i] = results[i][0]
     
-print(results)
+for result in results:
+    print(result,end=',')
