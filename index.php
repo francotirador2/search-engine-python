@@ -18,7 +18,12 @@
 
         <p id='results'>
             <?php
-                if ($_GET['query']) echo 'Showing results for query: ' . $_GET['query'];
+                if ($_GET['query']) {
+                    echo 'Showing results for query: ' . $_GET['query'] . '<br>';
+                    $command = 'python3 search.py 3 ' . $_GET['query'];
+                    echo $command . '<br>';
+                    system($command);
+                }
            ?>
         </p>
 
