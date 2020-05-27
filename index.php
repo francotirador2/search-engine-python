@@ -22,7 +22,8 @@
                     echo 'Showing results for query: ' . $_GET['query'] . '<br>';
                     $command = 'python3 search.py 3 ' . $_GET['query'];
                     echo $command . '<br>';
-                    system($command);
+                    $results = exec($command);
+                    echo $results;
                 }
            ?>
         </p>

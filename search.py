@@ -1,7 +1,11 @@
+import sys
+
+sys.path.append('/home/karthik/.local/lib/python3.6/site-packages')
+
 import clean
 import pickle
 import os 
-import sys
+
 import indexer
 import math
 
