@@ -8,14 +8,6 @@ base_dir = 'docs_test'
 def run():
 
     file_names = os.listdir(base_dir)
-    allwords = set()
-
-    def list_to_dict(words):
-        d = {}  
-        for word in words:
-            if (word not in d):
-                d[word] = 0
-            d[word] += 1
 
     if (os.path.exists('tfs.pkl')):
         tfs = pickle.load(open('tfs.pkl','rb'))
@@ -32,6 +24,10 @@ def run():
     else:
         posting_list = {}
 
+    if (os.path.exists('word2id.pkl')):
+        word2id = pickle.load(open('word2id.pkl','rb'))
+    else:
+        word2id = {}
 
     for file_name in file_names:
 
@@ -46,6 +42,10 @@ def run():
                 cleaned = clean.clean(line)
 
                 for word in cleaned:
+
+                    if (word not in word2id):
+                        word2id[word] = len(word2id)
+                    word = word2id[word]
 
                     doc_words.add(word)
                     if (word not in doc_tfs):
@@ -72,3 +72,4 @@ def run():
     pickle.dump(tfs,open('tfs.pkl','wb'))
     pickle.dump(dfs,open('dfs.pkl','wb'))
     pickle.dump(posting_list,open('posting_list.pkl','wb'))
+    pickle.dump(word2id,open('word2id.pkl','wb'))

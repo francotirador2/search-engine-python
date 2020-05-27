@@ -10,12 +10,13 @@ import indexer
 import math
 
 
-if (not os.path.exists('tfs.pkl') or not os.path.exists('dfs.pkl') or not os.path.exists('posting_list.pkl')):
+if (not os.path.exists('tfs.pkl') or not os.path.exists('dfs.pkl') or not os.path.exists('posting_list.pkl') or not os.path.exists('word2id.pkl')):
     indexer.run()
 
 tfs = pickle.load(open('tfs.pkl','rb'))
 dfs = pickle.load(open('dfs.pkl','rb'))
 posting_list = pickle.load(open('posting_list.pkl','rb'))
+word2id = pickle.load(open('word2id.pkl','rb'))
 
 N = len(tfs) #total number of docs
 
@@ -30,9 +31,11 @@ cleaned = clean.clean(query)
 
 query_vec = {}
 for word in cleaned:
-    if (word not in query_vec):
-        query_vec[word] = 0
-    query_vec[word] += 1
+    if (word in word2id):
+        word = word2id[word]
+        if (word not in query_vec):
+            query_vec[word] = 0
+        query_vec[word] += 1
 
 for word in query_vec:
     query_vec[word] *= math.log(N/dfs[word])
